@@ -17,8 +17,6 @@ from gnuradio.filter import firdes
 from gnuradio.fft import window
 import sys
 import signal
-from gnuradio.qtgui import Range, RangeWidget
-from PyQt5 import QtCore
 
 
 
@@ -26,24 +24,22 @@ from PyQt5 import QtCore
 
 
 
-class cospas_sarsat_doa(gr.hier_block2, Qt.QWidget):
-    def __init__(self):
+class cospas_sarsat_doa(gr.hier_block2):
+    def __init__(self, theta_deg=45):
         gr.hier_block2.__init__(
             self, "Cospas-Sarsat DoA Simulator (5-Channel KrakenSDR Sim)",
                 gr.io_signature(0, 0, 0),
                 gr.io_signature.makev(5, 5, [gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1]),
         )
 
-        Qt.QWidget.__init__(self)
-        self.top_layout = Qt.QVBoxLayout()
-        self.top_grid_layout = Qt.QGridLayout()
-        self.top_layout.addLayout(self.top_grid_layout)
-        self.setLayout(self.top_layout)
+        ##################################################
+        # Parameters
+        ##################################################
+        self.theta_deg = theta_deg
 
         ##################################################
         # Variables
         ##################################################
-        self.theta_deg = theta_deg = 45
         self.samp_rate = samp_rate = 48000
         self.bit_rate = bit_rate = 400
         self.antenna_spacing = antenna_spacing = 0.5
@@ -61,13 +57,6 @@ class cospas_sarsat_doa(gr.hier_block2, Qt.QWidget):
         # Blocks
         ##################################################
         self.vector_source_0 = blocks.vector_source_b(beacon_bits, True, 1, [])
-        self._theta_deg_range = Range(-180, 180, 1, 45, 200)
-        self._theta_deg_win = RangeWidget(self._theta_deg_range, self.set_theta_deg, "Angle of Incidence (degrees)", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._theta_deg_win, 0, 0, 1, 4)
-        for r in range(0, 1):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 4):
-            self.top_grid_layout.setColumnStretch(c, 1)
         self.digital_chunks_to_symbols_0 = digital.chunks_to_symbols_bf([1,-1], 1)
         self.blocks_vector_source_x_0 = blocks.vector_source_c([complex(1,0)] * int(samp_rate * 0.5) + [complex(0,0)] * int(samp_rate * 5.0), True, 1, [])
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_float*1, sps)

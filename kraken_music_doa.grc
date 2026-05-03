@@ -33,10 +33,10 @@ options:
     state: enabled
 
 blocks:
-- name: alpha_iir
+- name: alpha_iir_0
   id: variable_qtgui_range
   parameters:
-    comment: ''
+    comment: For Squelcher block
     gui_hint: ''
     label: ''
     min_len: '200'
@@ -51,9 +51,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 948.0]
+    coordinate: [1056, 108.0]
     rotation: 0
-    state: disabled
+    state: true
 - name: cpi_size
   id: variable
   parameters:
@@ -78,10 +78,10 @@ blocks:
     coordinate: [296, 12.0]
     rotation: 0
     state: enabled
-- name: delay_time_s
+- name: delay_time_s_0
   id: variable_qtgui_range
   parameters:
-    comment: ''
+    comment: For Squelcher block
     gui_hint: ''
     label: ''
     min_len: '200'
@@ -96,9 +96,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [816, 948.0]
+    coordinate: [928, 108.0]
     rotation: 0
-    state: disabled
+    state: true
 - name: freq
   id: variable
   parameters:
@@ -123,128 +123,27 @@ blocks:
     coordinate: [400, 12.0]
     rotation: 0
     state: enabled
-- name: blocks_complex_to_mag_0
-  id: blocks_complex_to_mag
+- name: theta_deg
+  id: variable_qtgui_range
   parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    vlen: '1'
+    comment: Angle of incidence in degrees (0=North, 90=East)
+    gui_hint: 0,0,1,4
+    label: Angle of Incidence (degrees)
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-180'
+    step: '1'
+    stop: '180'
+    value: '45'
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 856.0]
+    coordinate: [24, 580.0]
     rotation: 0
-    state: disabled
-- name: blocks_complex_to_mag_1
-  id: blocks_complex_to_mag
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [536, 1072.0]
-    rotation: 0
-    state: disabled
-- name: blocks_delay_0
-  id: blocks_delay
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    delay: int((delay_time_s)*(samp_rate/decimation))
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_ports: '1'
-    type: float
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [824, 1064.0]
-    rotation: 0
-    state: disabled
-- name: blocks_divide_xx_0
-  id: blocks_divide_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: '2'
-    type: float
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1440, 1040.0]
-    rotation: 0
-    state: disabled
-- name: blocks_float_to_complex_0
-  id: blocks_float_to_complex
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1816, 1056.0]
-    rotation: 0
-    state: disabled
-- name: blocks_multiply_const_vxx_0
-  id: blocks_multiply_const_vxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: We now get the noise floor
-    const: '3'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: float
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1216, 1076.0]
-    rotation: 0
-    state: disabled
-- name: blocks_null_source_0
-  id: blocks_null_source
-  parameters:
-    affinity: ''
-    alias: ''
-    bus_structure_source: '[[0,],]'
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_outputs: '1'
-    type: float
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1680, 1120.0]
-    rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_stream_to_vector_0
   id: blocks_stream_to_vector
   parameters:
@@ -425,24 +324,6 @@ blocks:
     coordinate: [288, 552.0]
     rotation: 0
     state: disabled
-- name: blocks_threshold_ff_0
-  id: blocks_threshold_ff
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    high: '1'
-    init: '0'
-    low: '0.99'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1624, 1036.0]
-    rotation: 0
-    state: disabled
 - name: blocks_vector_to_stream_0_2_0
   id: blocks_vector_to_stream
   parameters:
@@ -467,9 +348,9 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    gui_hint: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    theta_deg: '45'
   states:
     bus_sink: false
     bus_source: false
@@ -512,8 +393,8 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    mode: ''
-    threshold: ''
+    mode: '''map_squelch'''
+    threshold: '0.1'
   states:
     _io_cache: '(''Smart Vector Gate'', ''blk'', [(''mode'', "''map_squelch''"), (''threshold'',
       ''0.1'')], [(''0'', ''float'', 360)], [(''0'', ''float'', 360)], "\n        mode:
@@ -661,44 +542,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [16, 272.0]
-    rotation: 0
-    state: disabled
-- name: pad_sink_0
-  id: pad_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    label: out
-    num_streams: '1'
-    optional: 'False'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [2024, 1068.0]
-    rotation: 0
-    state: disabled
-- name: pad_source_1
-  id: pad_source
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    label: in
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_streams: '1'
-    optional: 'False'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [256, 988.0]
     rotation: 0
     state: disabled
 - name: qtgui_freq_sink_x_0
@@ -879,32 +722,15 @@ blocks:
     coordinate: [2152, 332.0]
     rotation: 0
     state: true
-- name: single_pole_iir_filter_xx_0
-  id: single_pole_iir_filter_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha: alpha_iir
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: float
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [984, 1076.0]
-    rotation: 0
-    state: disabled
 - name: squelcher_0
   id: squelcher
   parameters:
     affinity: ''
     alias: ''
+    alpha_iir: '0.01'
     comment: ''
     decimation: decimation
-    gui_hint: ''
+    delay_time_s: '2'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: samp_rate
@@ -912,7 +738,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 244.0]
+    coordinate: [648, 236.0]
     rotation: 0
     state: true
 - name: squelcher_0_0
@@ -920,9 +746,10 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    alpha_iir: '0.01'
     comment: ''
     decimation: decimation
-    gui_hint: ''
+    delay_time_s: '2'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: samp_rate
@@ -938,9 +765,10 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    alpha_iir: '0.01'
     comment: ''
     decimation: decimation
-    gui_hint: ''
+    delay_time_s: '2'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: samp_rate
@@ -956,9 +784,10 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    alpha_iir: '0.01'
     comment: ''
     decimation: decimation
-    gui_hint: ''
+    delay_time_s: '2'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: samp_rate
@@ -974,9 +803,10 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    alpha_iir: '0.01'
     comment: ''
     decimation: decimation
-    gui_hint: ''
+    delay_time_s: '2'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: samp_rate
@@ -987,35 +817,8 @@ blocks:
     coordinate: [648, 372.0]
     rotation: 0
     state: true
-- name: zeromq_pub_sink_0
-  id: zeromq_pub_sink
-  parameters:
-    address: ''
-    affinity: ''
-    alias: ''
-    comment: ''
-    hwm: '-1'
-    key: ''
-    pass_tags: 'False'
-    timeout: '100'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1344, 492.0]
-    rotation: 0
-    state: disabled
 
 connections:
-- [blocks_complex_to_mag_0, '0', blocks_divide_xx_0, '0']
-- [blocks_complex_to_mag_1, '0', blocks_delay_0, '0']
-- [blocks_delay_0, '0', single_pole_iir_filter_xx_0, '0']
-- [blocks_divide_xx_0, '0', blocks_threshold_ff_0, '0']
-- [blocks_float_to_complex_0, '0', pad_sink_0, '0']
-- [blocks_multiply_const_vxx_0, '0', blocks_divide_xx_0, '1']
-- [blocks_null_source_0, '0', blocks_float_to_complex_0, '1']
 - [blocks_stream_to_vector_0, '0', krakensdr_doa_music_0, '0']
 - [blocks_stream_to_vector_0_0, '0', krakensdr_doa_music_0, '1']
 - [blocks_stream_to_vector_0_0_0, '0', krakensdr_doa_music_0, '2']
@@ -1026,7 +829,6 @@ connections:
 - [blocks_stream_to_vector_1_1, '0', krakensdr_doa_music_0, '3']
 - [blocks_stream_to_vector_1_2, '0', krakensdr_doa_music_0, '1']
 - [blocks_stream_to_vector_1_3, '0', krakensdr_doa_music_0, '2']
-- [blocks_threshold_ff_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_vector_to_stream_0_2_0, '0', qtgui_time_sink_x_0, '0']
 - [cospas_sarsat_doa_0, '0', fir_filter_xxx_0_0, '0']
 - [cospas_sarsat_doa_0, '1', fir_filter_xxx_0_0_0, '0']
@@ -1051,9 +853,6 @@ connections:
 - [krakensdr_krakensdr_source_0, '3', fir_filter_xxx_0_0_1, '0']
 - [krakensdr_krakensdr_source_0, '4', blocks_stream_to_vector_1_0, '0']
 - [krakensdr_krakensdr_source_0, '4', fir_filter_xxx_0_0_2, '0']
-- [pad_source_1, '0', blocks_complex_to_mag_0, '0']
-- [pad_source_1, '0', blocks_complex_to_mag_1, '0']
-- [single_pole_iir_filter_xx_0, '0', blocks_multiply_const_vxx_0, '0']
 - [squelcher_0, '0', blocks_stream_to_vector_0, '0']
 - [squelcher_0_0, '0', blocks_stream_to_vector_0_0_2, '0']
 - [squelcher_0_1, '0', blocks_stream_to_vector_0_0, '0']

@@ -38,6 +38,8 @@ from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import krakensdr
+from gnuradio.qtgui import Range, RangeWidget
+from PyQt5 import QtCore
 from squelcher import squelcher  # grc-generated hier_block
 import kraken_music_doa_epy_block_0 as epy_block_0  # embedded python block
 
@@ -81,44 +83,54 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.theta_deg = theta_deg = 45
         self.samp_rate = samp_rate = 2400000
         self.freq = freq = 406.025
+        self.delay_time_s_0 = delay_time_s_0 = 2
         self.decimation = decimation = 128
         self.cpi_size = cpi_size = 2**20
+        self.alpha_iir_0 = alpha_iir_0 = 0.01
 
         ##################################################
         # Blocks
         ##################################################
+        self._theta_deg_range = Range(-180, 180, 1, 45, 200)
+        self._theta_deg_win = RangeWidget(self._theta_deg_range, self.set_theta_deg, "Angle of Incidence (degrees)", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_grid_layout.addWidget(self._theta_deg_win, 0, 0, 1, 4)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 4):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.squelcher_0_2_0 = squelcher(
+            alpha_iir=0.01,
             decimation=decimation,
+            delay_time_s=2,
             samp_rate=samp_rate,
         )
-
-        self.top_layout.addWidget(self.squelcher_0_2_0)
         self.squelcher_0_2 = squelcher(
+            alpha_iir=0.01,
             decimation=decimation,
+            delay_time_s=2,
             samp_rate=samp_rate,
         )
-
-        self.top_layout.addWidget(self.squelcher_0_2)
         self.squelcher_0_1 = squelcher(
+            alpha_iir=0.01,
             decimation=decimation,
+            delay_time_s=2,
             samp_rate=samp_rate,
         )
-
-        self.top_layout.addWidget(self.squelcher_0_1)
         self.squelcher_0_0 = squelcher(
+            alpha_iir=0.01,
             decimation=decimation,
+            delay_time_s=2,
             samp_rate=samp_rate,
         )
-
-        self.top_layout.addWidget(self.squelcher_0_0)
         self.squelcher_0 = squelcher(
+            alpha_iir=0.01,
             decimation=decimation,
+            delay_time_s=2,
             samp_rate=samp_rate,
         )
-
-        self.top_layout.addWidget(self.squelcher_0)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             360, #size
             1000, #samp_rate
@@ -220,16 +232,22 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         self.fir_filter_xxx_0_0.declare_sample_delay(0)
         self.fir_filter_xxx_0 = filter.fir_filter_ccc(decimation, [decimation*5])
         self.fir_filter_xxx_0.declare_sample_delay(0)
-        self.epy_block_0 = epy_block_0.blk(mode=, threshold=)
-        self.cospas_sarsat_doa_0 = cospas_sarsat_doa()
-
-        self.top_layout.addWidget(self.cospas_sarsat_doa_0)
+        self.epy_block_0 = epy_block_0.blk(mode='map_squelch', threshold=0.1)
+        self._delay_time_s_0_range = Range(0, 5, 0.5, 2, 200)
+        self._delay_time_s_0_win = RangeWidget(self._delay_time_s_0_range, self.set_delay_time_s_0, "'delay_time_s_0'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._delay_time_s_0_win)
+        self.cospas_sarsat_doa_0 = cospas_sarsat_doa(
+            theta_deg=45,
+        )
         self.blocks_vector_to_stream_0_2_0 = blocks.vector_to_stream(gr.sizeof_float*1, 360)
         self.blocks_stream_to_vector_0_0_2 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0_0_1 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
+        self._alpha_iir_0_range = Range(0, 1, 0.01, 0.01, 200)
+        self._alpha_iir_0_win = RangeWidget(self._alpha_iir_0_range, self.set_alpha_iir_0, "'alpha_iir_0'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._alpha_iir_0_win)
 
 
         ##################################################
@@ -269,6 +287,12 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
 
         event.accept()
 
+    def get_theta_deg(self):
+        return self.theta_deg
+
+    def set_theta_deg(self, theta_deg):
+        self.theta_deg = theta_deg
+
     def get_samp_rate(self):
         return self.samp_rate
 
@@ -286,6 +310,12 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
 
     def set_freq(self, freq):
         self.freq = freq
+
+    def get_delay_time_s_0(self):
+        return self.delay_time_s_0
+
+    def set_delay_time_s_0(self, delay_time_s_0):
+        self.delay_time_s_0 = delay_time_s_0
 
     def get_decimation(self):
         return self.decimation
@@ -309,6 +339,12 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
 
     def set_cpi_size(self, cpi_size):
         self.cpi_size = cpi_size
+
+    def get_alpha_iir_0(self):
+        return self.alpha_iir_0
+
+    def set_alpha_iir_0(self, alpha_iir_0):
+        self.alpha_iir_0 = alpha_iir_0
 
 
 

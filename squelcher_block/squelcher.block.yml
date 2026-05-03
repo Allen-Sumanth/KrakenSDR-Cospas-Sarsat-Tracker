@@ -1,23 +1,28 @@
 id: squelcher
-label: QT GUI Squelcher block
+label: Squelcher block
 category: '[GRC Hier Blocks]'
-flags: need_qt_gui
 
 parameters:
+-   id: alpha_iir
+    label: alpha_iir
+    dtype: raw
+    default: '0.01'
+    hide: none
 -   id: decimation
     label: decimation
     dtype: real
     default: '128'
+    hide: none
+-   id: delay_time_s
+    label: delay_time_s
+    dtype: raw
+    default: '2'
     hide: none
 -   id: samp_rate
     label: Sample Rate
     dtype: real
     default: '1200000'
     hide: none
--   id: gui_hint
-    label: GUI Hint
-    dtype: gui_hint
-    hide: part
 
 inputs:
 -   label: in
@@ -31,15 +36,18 @@ outputs:
 
 templates:
     imports: 'from squelcher import squelcher  # grc-generated hier_block'
-    make: "squelcher(\n    decimation=${ decimation },\n    samp_rate=${ samp_rate\
-        \ },\n)\n<% win = 'self.%s'%id %>\n${ gui_hint() % win }"
+    make: "squelcher(\n    alpha_iir=${ alpha_iir },\n    decimation=${ decimation\
+        \ },\n    delay_time_s=${ delay_time_s },\n    samp_rate=${ samp_rate },\n\
+        )"
     callbacks:
+    - set_alpha_iir(${ alpha_iir })
     - set_decimation(${ decimation })
+    - set_delay_time_s(${ delay_time_s })
     - set_samp_rate(${ samp_rate })
 
 documentation: 'krakenrf
 
-    /home/krakenrf/squelcher.py'
-grc_source: /home/krakenrf/squelcher.grc
+    /media/sf_comm_lab_project/squelcher_block/squelcher.py'
+grc_source: /media/sf_comm_lab_project/squelcher_block/squelcher.grc
 
 file_format: 1

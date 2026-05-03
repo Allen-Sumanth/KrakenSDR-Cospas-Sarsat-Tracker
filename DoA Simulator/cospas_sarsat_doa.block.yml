@@ -1,13 +1,13 @@
 id: cospas_sarsat_doa
-label: QT GUI Cospas-Sarsat DoA Simulator (5-Channel KrakenSDR Sim)
+label: Cospas-Sarsat DoA Simulator (5-Channel KrakenSDR Sim)
 category: '[GRC Hier Blocks]'
-flags: need_qt_gui
 
 parameters:
--   id: gui_hint
-    label: GUI Hint
-    dtype: gui_hint
-    hide: part
+-   id: theta_deg
+    label: theta_deg
+    dtype: raw
+    default: '45'
+    hide: none
 
 inputs: []
 
@@ -30,18 +30,15 @@ outputs:
 
 templates:
     imports: 'from cospas_sarsat_doa import cospas_sarsat_doa  # grc-generated hier_block'
-    make: 'cospas_sarsat_doa()
-
-        <% win = ''self.%s''%id %>
-
-        ${ gui_hint() % win }'
-    callbacks: []
+    make: "cospas_sarsat_doa(\n    theta_deg=${ theta_deg },\n)"
+    callbacks:
+    - set_theta_deg(${ theta_deg })
 
 documentation: 'GNU Radio DoA Simulator
 
     Cospas-Sarsat DoA Simulator
 
-    /home/krakenrf/cospas_sarsat_doa.py'
-grc_source: /home/krakenrf/cospas_sarsat_doa.grc
+    /media/sf_comm_lab_project/DoA Simulator/cospas_sarsat_doa.py'
+grc_source: /media/sf_comm_lab_project/DoA Simulator/cospas_sarsat_doa.grc
 
 file_format: 1
