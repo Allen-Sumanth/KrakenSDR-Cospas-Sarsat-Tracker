@@ -1,0 +1,45 @@
+id: squelcher
+label: QT GUI Squelcher block
+category: '[GRC Hier Blocks]'
+flags: need_qt_gui
+
+parameters:
+-   id: decimation
+    label: decimation
+    dtype: real
+    default: '128'
+    hide: none
+-   id: samp_rate
+    label: Sample Rate
+    dtype: real
+    default: '1200000'
+    hide: none
+-   id: gui_hint
+    label: GUI Hint
+    dtype: gui_hint
+    hide: part
+
+inputs:
+-   label: in
+    dtype: complex
+    vlen: 1
+
+outputs:
+-   label: out
+    dtype: complex
+    vlen: 1
+
+templates:
+    imports: 'from squelcher import squelcher  # grc-generated hier_block'
+    make: "squelcher(\n    decimation=${ decimation },\n    samp_rate=${ samp_rate\
+        \ },\n)\n<% win = 'self.%s'%id %>\n${ gui_hint() % win }"
+    callbacks:
+    - set_decimation(${ decimation })
+    - set_samp_rate(${ samp_rate })
+
+documentation: 'krakenrf
+
+    /home/krakenrf/squelcher.py'
+grc_source: /home/krakenrf/squelcher.grc
+
+file_format: 1
