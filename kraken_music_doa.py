@@ -94,7 +94,7 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self._theta_deg_range = Range(-180, 180, 1, 45, 200)
+        self._theta_deg_range = Range(0, 360, 1, 45, 200)
         self._theta_deg_win = RangeWidget(self._theta_deg_range, self.set_theta_deg, "Angle of Incidence (degrees)", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_grid_layout.addWidget(self._theta_deg_win, 0, 0, 1, 4)
         for r in range(0, 1):
@@ -222,22 +222,22 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.krakensdr_doa_music_0 = krakensdr.doa_music(cpi_size//decimation, freq, 0.22, 5, 'UCA')
-        self.fir_filter_xxx_0_0_2 = filter.fir_filter_ccc(decimation, [decimation*5])
+        self.fir_filter_xxx_0_0_2 = filter.fir_filter_ccc(decimation, firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000))
         self.fir_filter_xxx_0_0_2.declare_sample_delay(0)
-        self.fir_filter_xxx_0_0_1 = filter.fir_filter_ccc(decimation, [decimation*5])
+        self.fir_filter_xxx_0_0_1 = filter.fir_filter_ccc(decimation, firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000))
         self.fir_filter_xxx_0_0_1.declare_sample_delay(0)
-        self.fir_filter_xxx_0_0_0 = filter.fir_filter_ccc(decimation, [decimation*5])
+        self.fir_filter_xxx_0_0_0 = filter.fir_filter_ccc(decimation, firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000))
         self.fir_filter_xxx_0_0_0.declare_sample_delay(0)
-        self.fir_filter_xxx_0_0 = filter.fir_filter_ccc(decimation, [decimation*5])
+        self.fir_filter_xxx_0_0 = filter.fir_filter_ccc(decimation, firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000))
         self.fir_filter_xxx_0_0.declare_sample_delay(0)
-        self.fir_filter_xxx_0 = filter.fir_filter_ccc(decimation, [decimation*5])
+        self.fir_filter_xxx_0 = filter.fir_filter_ccc(decimation, firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000))
         self.fir_filter_xxx_0.declare_sample_delay(0)
-        self.epy_block_0 = epy_block_0.blk(mode='map_squelch', threshold=0.1)
         self._delay_time_s_0_range = Range(0, 5, 0.5, 2, 200)
         self._delay_time_s_0_win = RangeWidget(self._delay_time_s_0_range, self.set_delay_time_s_0, "'delay_time_s_0'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._delay_time_s_0_win)
         self.cospas_sarsat_doa_0 = cospas_sarsat_doa(
-            theta_deg=45,
+            samp_rate=samp_rate,
+            theta_deg=theta_deg,
         )
         self.blocks_vector_to_stream_0_2_0 = blocks.vector_to_stream(gr.sizeof_float*1, 360)
         self.blocks_stream_to_vector_0_0_2 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
@@ -264,14 +264,13 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         self.connect((self.cospas_sarsat_doa_0, 1), (self.fir_filter_xxx_0_0_0, 0))
         self.connect((self.cospas_sarsat_doa_0, 2), (self.fir_filter_xxx_0_0_1, 0))
         self.connect((self.cospas_sarsat_doa_0, 4), (self.fir_filter_xxx_0_0_2, 0))
-        self.connect((self.epy_block_0, 0), (self.blocks_vector_to_stream_0_2_0, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.squelcher_0, 0))
         self.connect((self.fir_filter_xxx_0_0, 0), (self.squelcher_0_1, 0))
         self.connect((self.fir_filter_xxx_0_0_0, 0), (self.squelcher_0_2_0, 0))
         self.connect((self.fir_filter_xxx_0_0_1, 0), (self.squelcher_0_2, 0))
         self.connect((self.fir_filter_xxx_0_0_2, 0), (self.squelcher_0_0, 0))
-        self.connect((self.krakensdr_doa_music_0, 0), (self.epy_block_0, 0))
+        self.connect((self.krakensdr_doa_music_0, 0), (self.blocks_vector_to_stream_0_2_0, 0))
         self.connect((self.squelcher_0, 0), (self.blocks_stream_to_vector_0, 0))
         self.connect((self.squelcher_0_0, 0), (self.blocks_stream_to_vector_0_0_2, 0))
         self.connect((self.squelcher_0_1, 0), (self.blocks_stream_to_vector_0_0, 0))
@@ -292,12 +291,19 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
 
     def set_theta_deg(self, theta_deg):
         self.theta_deg = theta_deg
+        self.cospas_sarsat_doa_0.set_theta_deg(self.theta_deg)
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
+        self.cospas_sarsat_doa_0.set_samp_rate(self.samp_rate)
+        self.fir_filter_xxx_0.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0_0.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0_1.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0_2.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate//self.decimation)
         self.squelcher_0.set_samp_rate(self.samp_rate)
         self.squelcher_0_0.set_samp_rate(self.samp_rate)
@@ -322,11 +328,11 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
 
     def set_decimation(self, decimation):
         self.decimation = decimation
-        self.fir_filter_xxx_0.set_taps([self.decimation*5])
-        self.fir_filter_xxx_0_0.set_taps([self.decimation*5])
-        self.fir_filter_xxx_0_0_0.set_taps([self.decimation*5])
-        self.fir_filter_xxx_0_0_1.set_taps([self.decimation*5])
-        self.fir_filter_xxx_0_0_2.set_taps([self.decimation*5])
+        self.fir_filter_xxx_0.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0_0.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0_1.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
+        self.fir_filter_xxx_0_0_2.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate//self.decimation)
         self.squelcher_0.set_decimation(self.decimation)
         self.squelcher_0_0.set_decimation(self.decimation)

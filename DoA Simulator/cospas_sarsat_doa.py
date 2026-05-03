@@ -25,7 +25,7 @@ import signal
 
 
 class cospas_sarsat_doa(gr.hier_block2):
-    def __init__(self, theta_deg=45):
+    def __init__(self, samp_rate=2400000, theta_deg=45):
         gr.hier_block2.__init__(
             self, "Cospas-Sarsat DoA Simulator (5-Channel KrakenSDR Sim)",
                 gr.io_signature(0, 0, 0),
@@ -35,20 +35,20 @@ class cospas_sarsat_doa(gr.hier_block2):
         ##################################################
         # Parameters
         ##################################################
+        self.samp_rate = samp_rate
         self.theta_deg = theta_deg
 
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 48000
+        self.radius_wl = radius_wl = 0.298
         self.bit_rate = bit_rate = 400
-        self.antenna_spacing = antenna_spacing = 0.5
         self.sps = sps = int(samp_rate / bit_rate)
-        self.phase4 = phase4 = __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing * 4 * __import__('math').sin(__import__('math').radians(theta_deg)))
-        self.phase3 = phase3 = __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing * 3 * __import__('math').sin(__import__('math').radians(theta_deg)))
-        self.phase2 = phase2 = __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing * 2 * __import__('math').sin(__import__('math').radians(theta_deg)))
-        self.phase1 = phase1 = __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing * 1 * __import__('math').sin(__import__('math').radians(theta_deg)))
-        self.phase0 = phase0 = complex(1, 0)
+        self.phase4 = phase4 = __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg) - (2*__import__('math').pi/5)*4))
+        self.phase3 = phase3 = __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg) - (2*__import__('math').pi/5)*3))
+        self.phase2 = phase2 = __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg) - (2*__import__('math').pi/5)*2))
+        self.phase1 = phase1 = __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg) - (2*__import__('math').pi/5)*1))
+        self.phase0 = phase0 = __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg) - 0))
         self.noise_amp = noise_amp = 0.05
         self.carrier_freq = carrier_freq = 1000
         self.beacon_bits = beacon_bits = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,1,1,1,1, 0,1,0,0,0,0,0,1, 0,0,1,0,1,1,0,0,1,0,1,0, 0,1,0,1,0,1,0,1,0,1, 0,1,0,1,0,1,0,1,0,1, 0,1,0,1,0,1,0,1,0,1, 0,1,0,1,0,1,0,1,0,1, 0,1,0,1,0,1,0,1,0,1, 0,1,0,1,0,1,0,1,0,1, 1,0,1,0,1,0,1,0,1,0, 1,0,1,0,1,0,1,0,1,0, 1,0,1,0,1,0,1,0,1,0]
@@ -95,16 +95,6 @@ class cospas_sarsat_doa(gr.hier_block2):
         self.connect((self.vector_source_0, 0), (self.digital_chunks_to_symbols_0, 0))
 
 
-    def get_theta_deg(self):
-        return self.theta_deg
-
-    def set_theta_deg(self, theta_deg):
-        self.theta_deg = theta_deg
-        self.set_phase1(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 1 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
-        self.set_phase2(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 2 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
-        self.set_phase3(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 3 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
-        self.set_phase4(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 4 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
-
     def get_samp_rate(self):
         return self.samp_rate
 
@@ -114,22 +104,34 @@ class cospas_sarsat_doa(gr.hier_block2):
         self.analog_sig_source_carrier.set_sampling_freq(self.samp_rate)
         self.blocks_vector_source_x_0.set_data([complex(1,0)] * int(self.samp_rate * 0.5) + [complex(0,0)] * int(self.samp_rate * 5.0), [])
 
+    def get_theta_deg(self):
+        return self.theta_deg
+
+    def set_theta_deg(self, theta_deg):
+        self.theta_deg = theta_deg
+        self.set_phase0(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - 0)))
+        self.set_phase1(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*1)))
+        self.set_phase2(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*2)))
+        self.set_phase3(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*3)))
+        self.set_phase4(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*4)))
+
+    def get_radius_wl(self):
+        return self.radius_wl
+
+    def set_radius_wl(self, radius_wl):
+        self.radius_wl = radius_wl
+        self.set_phase0(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - 0)))
+        self.set_phase1(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*1)))
+        self.set_phase2(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*2)))
+        self.set_phase3(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*3)))
+        self.set_phase4(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.radius_wl * __import__('math').cos(-__import__('math').radians(self.theta_deg) - (2*__import__('math').pi/5)*4)))
+
     def get_bit_rate(self):
         return self.bit_rate
 
     def set_bit_rate(self, bit_rate):
         self.bit_rate = bit_rate
         self.set_sps(int(self.samp_rate / self.bit_rate))
-
-    def get_antenna_spacing(self):
-        return self.antenna_spacing
-
-    def set_antenna_spacing(self, antenna_spacing):
-        self.antenna_spacing = antenna_spacing
-        self.set_phase1(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 1 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
-        self.set_phase2(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 2 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
-        self.set_phase3(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 3 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
-        self.set_phase4(__import__('cmath').exp(1j * 2 * __import__('math').pi * self.antenna_spacing * 4 * __import__('math').sin(__import__('math').radians(self.theta_deg))))
 
     def get_sps(self):
         return self.sps

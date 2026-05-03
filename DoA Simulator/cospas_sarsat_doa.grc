@@ -34,11 +34,11 @@ options:
     state: enabled
 
 blocks:
-- name: antenna_spacing
+- name: radius_wl
   id: variable
   parameters:
-    comment: Antenna spacing in wavelengths (lambda/2 = 0.5)
-    value: '0.5'
+    comment: Antenna radius in wavelengths (0.22m at 406.025 MHz)
+    value: '0.298'
   states:
     bus_sink: false
     bus_source: false
@@ -100,8 +100,9 @@ blocks:
 - name: phase0
   id: variable
   parameters:
-    comment: Channel 0 phase (reference = 1+0j always)
-    value: complex(1, 0)
+    comment: Channel 0 phase shift (0 degrees)
+    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
+      - 0))
   states:
     bus_sink: false
     bus_source: false
@@ -112,9 +113,9 @@ blocks:
 - name: phase1
   id: variable
   parameters:
-    comment: Channel 1 phase shift
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing
-      * 1 * __import__('math').sin(__import__('math').radians(theta_deg)))
+    comment: Channel 1 phase shift (72 degrees)
+    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
+      - (2*__import__('math').pi/5)*1))
   states:
     bus_sink: false
     bus_source: false
@@ -125,9 +126,9 @@ blocks:
 - name: phase2
   id: variable
   parameters:
-    comment: Channel 2 phase shift
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing
-      * 2 * __import__('math').sin(__import__('math').radians(theta_deg)))
+    comment: Channel 2 phase shift (144 degrees)
+    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
+      - (2*__import__('math').pi/5)*2))
   states:
     bus_sink: false
     bus_source: false
@@ -138,9 +139,9 @@ blocks:
 - name: phase3
   id: variable
   parameters:
-    comment: Channel 3 phase shift
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing
-      * 3 * __import__('math').sin(__import__('math').radians(theta_deg)))
+    comment: Channel 3 phase shift (216 degrees)
+    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
+      - (2*__import__('math').pi/5)*3))
   states:
     bus_sink: false
     bus_source: false
@@ -151,9 +152,9 @@ blocks:
 - name: phase4
   id: variable
   parameters:
-    comment: Channel 4 phase shift
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * antenna_spacing
-      * 4 * __import__('math').sin(__import__('math').radians(theta_deg)))
+    comment: Channel 4 phase shift (288 degrees)
+    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
+      - (2*__import__('math').pi/5)*4))
   states:
     bus_sink: false
     bus_source: false
@@ -172,7 +173,7 @@ blocks:
     bus_structure: null
     coordinate: [200, 12]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: sps
   id: variable
   parameters:
@@ -286,7 +287,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: 'Channel 0: reference antenna (no phase shift)'
+    comment: 'Channel 0: phase shift based on theta_deg'
     const: phase0
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -716,6 +717,23 @@ blocks:
     coordinate: [1632, 744.0]
     rotation: 0
     state: disabled
+- name: samp_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: samp_rate
+    short_id: ''
+    type: ''
+    value: '2400000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1112, 12.0]
+    rotation: 0
+    state: true
 - name: theta_deg
   id: parameter
   parameters:

@@ -132,9 +132,9 @@ blocks:
     min_len: '200'
     orient: QtCore.Qt.Horizontal
     rangeType: float
-    start: '-180'
+    start: '0'
     step: '1'
-    stop: '180'
+    stop: '360'
     value: '45'
     widget: counter_slider
   states:
@@ -234,96 +234,6 @@ blocks:
     coordinate: [1008, 424.0]
     rotation: 0
     state: enabled
-- name: blocks_stream_to_vector_1
-  id: blocks_stream_to_vector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_items: cpi_size
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 456.0]
-    rotation: 0
-    state: disabled
-- name: blocks_stream_to_vector_1_0
-  id: blocks_stream_to_vector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_items: cpi_size
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 664.0]
-    rotation: 0
-    state: disabled
-- name: blocks_stream_to_vector_1_1
-  id: blocks_stream_to_vector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_items: cpi_size
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 600.0]
-    rotation: 0
-    state: disabled
-- name: blocks_stream_to_vector_1_2
-  id: blocks_stream_to_vector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_items: cpi_size
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 520.0]
-    rotation: 0
-    state: disabled
-- name: blocks_stream_to_vector_1_3
-  id: blocks_stream_to_vector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_items: cpi_size
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 552.0]
-    rotation: 0
-    state: disabled
 - name: blocks_vector_to_stream_0_2_0
   id: blocks_vector_to_stream
   parameters:
@@ -350,7 +260,8 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    theta_deg: '45'
+    samp_rate: samp_rate
+    theta_deg: theta_deg
   states:
     bus_sink: false
     bus_source: false
@@ -406,7 +317,7 @@ blocks:
     bus_structure: null
     coordinate: [1736, 348.0]
     rotation: 0
-    state: true
+    state: bypassed
 - name: fir_filter_xxx_0
   id: fir_filter_xxx
   parameters:
@@ -417,7 +328,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: decimation*5
+    taps: firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000)
     type: ccc
   states:
     bus_sink: false
@@ -436,7 +347,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: decimation*5
+    taps: firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000)
     type: ccc
   states:
     bus_sink: false
@@ -455,7 +366,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: decimation*5
+    taps: firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000)
     type: ccc
   states:
     bus_sink: false
@@ -474,7 +385,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: decimation*5
+    taps: firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000)
     type: ccc
   states:
     bus_sink: false
@@ -493,7 +404,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: decimation*5
+    taps: firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000)
     type: ccc
   states:
     bus_sink: false
@@ -719,7 +630,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2152, 332.0]
+    coordinate: [2168, 332.0]
     rotation: 0
     state: true
 - name: squelcher_0
@@ -824,11 +735,6 @@ connections:
 - [blocks_stream_to_vector_0_0_0, '0', krakensdr_doa_music_0, '2']
 - [blocks_stream_to_vector_0_0_1, '0', krakensdr_doa_music_0, '3']
 - [blocks_stream_to_vector_0_0_2, '0', krakensdr_doa_music_0, '4']
-- [blocks_stream_to_vector_1, '0', krakensdr_doa_music_0, '0']
-- [blocks_stream_to_vector_1_0, '0', krakensdr_doa_music_0, '4']
-- [blocks_stream_to_vector_1_1, '0', krakensdr_doa_music_0, '3']
-- [blocks_stream_to_vector_1_2, '0', krakensdr_doa_music_0, '1']
-- [blocks_stream_to_vector_1_3, '0', krakensdr_doa_music_0, '2']
 - [blocks_vector_to_stream_0_2_0, '0', qtgui_time_sink_x_0, '0']
 - [cospas_sarsat_doa_0, '0', fir_filter_xxx_0_0, '0']
 - [cospas_sarsat_doa_0, '1', fir_filter_xxx_0_0_0, '0']
@@ -843,15 +749,10 @@ connections:
 - [fir_filter_xxx_0_0_1, '0', squelcher_0_2, '0']
 - [fir_filter_xxx_0_0_2, '0', squelcher_0_0, '0']
 - [krakensdr_doa_music_0, '0', epy_block_0, '0']
-- [krakensdr_krakensdr_source_0, '0', blocks_stream_to_vector_1, '0']
 - [krakensdr_krakensdr_source_0, '0', fir_filter_xxx_0, '0']
-- [krakensdr_krakensdr_source_0, '1', blocks_stream_to_vector_1_2, '0']
 - [krakensdr_krakensdr_source_0, '1', fir_filter_xxx_0_0, '0']
-- [krakensdr_krakensdr_source_0, '2', blocks_stream_to_vector_1_3, '0']
 - [krakensdr_krakensdr_source_0, '2', fir_filter_xxx_0_0_0, '0']
-- [krakensdr_krakensdr_source_0, '3', blocks_stream_to_vector_1_1, '0']
 - [krakensdr_krakensdr_source_0, '3', fir_filter_xxx_0_0_1, '0']
-- [krakensdr_krakensdr_source_0, '4', blocks_stream_to_vector_1_0, '0']
 - [krakensdr_krakensdr_source_0, '4', fir_filter_xxx_0_0_2, '0']
 - [squelcher_0, '0', blocks_stream_to_vector_0, '0']
 - [squelcher_0_0, '0', blocks_stream_to_vector_0_0_2, '0']

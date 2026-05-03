@@ -44,27 +44,32 @@ class squelcher(gr.hier_block2):
         self.single_pole_iir_filter_xx_0 = filter.single_pole_iir_filter_ff(alpha_iir, 1)
         self.blocks_threshold_ff_0 = blocks.threshold_ff(0.99, 1, 0)
         self.blocks_null_source_0 = blocks.null_source(gr.sizeof_float*1)
+        self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(3)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_divide_xx_0 = blocks.divide_ff(1)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_float*1, int((delay_time_s)*(samp_rate/decimation)))
         self.blocks_complex_to_mag_1 = blocks.complex_to_mag(1)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
+        self.blocks_add_const_vxx_0 = blocks.add_const_ff(1e-6)
 
 
         ##################################################
         # Connections
         ##################################################
+        self.connect((self.blocks_add_const_vxx_0, 0), (self.blocks_divide_xx_0, 1))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_divide_xx_0, 0))
         self.connect((self.blocks_complex_to_mag_1, 0), (self.blocks_delay_0, 0))
         self.connect((self.blocks_delay_0, 0), (self.single_pole_iir_filter_xx_0, 0))
         self.connect((self.blocks_divide_xx_0, 0), (self.blocks_threshold_ff_0, 0))
-        self.connect((self.blocks_float_to_complex_0, 0), (self, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_divide_xx_0, 1))
+        self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_multiply_xx_0, 1))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_add_const_vxx_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self, 0))
         self.connect((self.blocks_null_source_0, 0), (self.blocks_float_to_complex_0, 1))
         self.connect((self.blocks_threshold_ff_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self, 0), (self.blocks_complex_to_mag_0, 0))
         self.connect((self, 0), (self.blocks_complex_to_mag_1, 0))
+        self.connect((self, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.single_pole_iir_filter_xx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
 
 
