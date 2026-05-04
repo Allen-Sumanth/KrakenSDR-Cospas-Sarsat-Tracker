@@ -9,7 +9,7 @@ Unlike continuous-wave (CW) signals, Cospas-Sarsat beacons transmit an intermitt
 This project is divided into three main components: a master flowgraph and two custom hierarchical blocks.
 
 ### 1. The KrakenSDR Simulator (`cospas_sarsat_doa.grc`)
-*Hierarchical Block*
+*Hierarchical Block* \
 Because testing intermittent 5W bursts in the real world is difficult, this block mathematically simulates the hardware. 
 * It generates a baseband 406 MHz Cospas-Sarsat BPSK payload.
 * It splits the signal into 5 parallel paths and injects realistic AWGN (Additive White Gaussian Noise).
@@ -17,7 +17,7 @@ Because testing intermittent 5W bursts in the real world is difficult, this bloc
 * The user can dynamically change the simulated Angle of Arrival using a UI slider.
 
 ### 2. The Adaptive Burst Squelch (`squelcher.grc`)
-*Hierarchical Block*
+*Hierarchical Block* \
 Standard absolute-threshold squelches suffer from "self-gating" or chatter on massive 5W bursts. This block is a **Temporally Offset CFAR (Constant False Alarm Rate)** squelch.
 * **Path A** takes the live RF. 
 * **Path B** delays the signal by 2 seconds, runs it through an IIR filter, and multiplies it by a margin to calculate the past noise floor. 
@@ -36,20 +36,15 @@ This is the main controller flowgraph that ties the system together.
 To migrate and run this project on a new Ubuntu/Linux system, you must compile the KrakenSDR modules and generate the Hierarchical blocks locally.
 
 ### Step 1: Install the KrakenSDR OOT Modules
-The DOA MUSIC block is not native to GNU Radio. You must install the `gr-krakensdr` Out-Of-Tree (OOT) module.
+The DOA MUSIC block and the KrakenSDR source block are not native to GNU Radio. You must install the `gr-krakensdr` Out-Of-Tree (OOT) module.
 
-1. Clone the KrakenSDR DOA repository:
    ```bash
-   git clone [https://github.com/krakenrf/krakensdr_doa.git](https://github.com/krakenrf/krakensdr_doa.git)
-   ```
-2. Navigate to the GNU Radio module and compile it:
-   ```bash
-   cd krakensdr_doa/gr-krakensdr
+   git clone https://github.com/krakenrf/krakensdr_doa.git
+   cd gr-krakensdr
    mkdir build && cd build
    cmake ..
-   make -j4
+   make
    sudo make install
-   sudo ldconfig
    ```
 
 ### Step 2: Generate the Hierarchical Blocks
@@ -75,6 +70,13 @@ cp cospas_sarsat_doa.grc.yml /home/$USER/.grc_gnuradio/
 *Restart GRC one more time, and the blocks will appear.*
 
 ### Step 3: Run the Master Flowgraph
-1. Open `kraken_music_doa.grc`.
+1. Open `kraken_music_doa.grc`. 
 2. Click **Play**.
 3. Adjust the Angle of Incidence slider to verify the MUSIC algorithm correctly tracks the simulated burst.
+
+## Using With Physical Hardware
+This flowgraph currently contains a **Throttle block** to prevent your CPU from maxing out at 100% while running the mathematical simulator. Due to lack of availability of KrakenSDR hardware, the `cospas_sarsat_doa` simulator is used.
+
+When you remove the `cospas_sarsat_doa` simulator block and plug in the physical **KrakenSDR Source** block, **you MUST delete or bypass the Throttle block.** Physical SDR hardware acts as its own metronome. Leaving a software throttle in the chain with real hardware will cause massive buffer underruns and destroy the phase-coherency of the array.
+
+Additionally, ensure you run the Heimdall DAQ noise-source calibration before running the flowgraph to account for phase delays in your physical coaxial cables.
