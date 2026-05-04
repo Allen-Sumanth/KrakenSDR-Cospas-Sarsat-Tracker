@@ -33,6 +33,27 @@ options:
     state: enabled
 
 blocks:
+- name: Nv
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Noise voltage
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.01'
+    stop: '1'
+    value: '0.2'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 912.0]
+    rotation: 0
+    state: enabled
 - name: alpha_iir_0
   id: variable_qtgui_range
   parameters:
@@ -342,6 +363,27 @@ blocks:
     coordinate: [1992, 552.0]
     rotation: 0
     state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 552.0]
+    rotation: 0
+    state: enabled
 - name: blocks_vector_to_stream_0_2_0
   id: blocks_vector_to_stream
   parameters:
@@ -371,7 +413,7 @@ blocks:
     freq_offset: '0.0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    noise_voltage: '0.2'
+    noise_voltage: Nv
     seed: '0'
     taps: 1.0 + 1.0j
   states:
@@ -392,7 +434,7 @@ blocks:
     freq_offset: '0.0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    noise_voltage: '0.2'
+    noise_voltage: Nv
     seed: '0'
     taps: 1.0 + 1.0j
   states:
@@ -413,7 +455,7 @@ blocks:
     freq_offset: '0.0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    noise_voltage: '0.2'
+    noise_voltage: Nv
     seed: '0'
     taps: 1.0 + 1.0j
   states:
@@ -434,7 +476,7 @@ blocks:
     freq_offset: '0.0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    noise_voltage: '0.2'
+    noise_voltage: Nv
     seed: '0'
     taps: 1.0 + 1.0j
   states:
@@ -455,7 +497,7 @@ blocks:
     freq_offset: '0.0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    noise_voltage: '0.2'
+    noise_voltage: Nv
     seed: '0'
     taps: 1.0 + 1.0j
   states:
@@ -526,55 +568,6 @@ blocks:
     coordinate: [2744, 488.0]
     rotation: 0
     state: enabled
-- name: epy_block_0_0
-  id: epy_block
-  parameters:
-    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
-      \ GRC will instantiate the first class it finds\nto get ports and parameters\
-      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
-      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
-      from gnuradio import gr\n\nclass blk(gr.sync_block):\n    def __init__(self,\
-      \ mode='map_squelch', threshold=0.1):\n        \"\"\"\n        mode: 'map_squelch'\
-      \ outputs zeros between bursts so the heatmap doesn't track false movement.\n\
-      \              'compass_hold' persists the last burst indefinitely for visual\
-      \ UI dials.\n        \"\"\"\n        gr.sync_block.__init__(\n            self,\n\
-      \            name='Smart Vector Gate',\n            in_sig=[(np.float32, 360)],\n\
-      \            out_sig=[(np.float32, 360)]\n        )\n        self.mode = mode\
-      \ \n        self.threshold = threshold\n        self.held_vector = np.zeros(360,\
-      \ dtype=np.float32)\n\n    def work(self, input_items, output_items):\n    \
-      \    for i in range(len(input_items[0])):\n            current_vector = input_items[0][i]\n\
-      \n            # 1. Catch the MUSIC algorithm Divide-by-Zero (NaN) explosion\n\
-      \            if np.isnan(current_vector).any():\n                is_valid =\
-      \ False\n            # 2. Check if the vector contains a strong, valid MUSIC\
-      \ peak\n            elif np.max(current_vector) > self.threshold:\n        \
-      \        is_valid = True\n                self.held_vector = np.copy(current_vector)\
-      \ # Save it to memory\n            else:\n                is_valid = False\n\
-      \n            # Output Logic\n            if self.mode == 'compass_hold':\n\
-      \                # Continously push the last known heading (Dangerous if driving!)\n\
-      \                output_items[0][i] = self.held_vector\n            else:\n\
-      \                # 'map_squelch' - Push valid burst, otherwise output strict\
-      \ zeros\n                if is_valid:\n                    output_items[0][i]\
-      \ = current_vector\n                else:\n                    output_items[0][i]\
-      \ = np.zeros(360, dtype=np.float32)\n\n        return len(output_items[0])\n"
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    mode: '''map_squelch'''
-    threshold: '-0.2'
-  states:
-    _io_cache: '(''Smart Vector Gate'', ''blk'', [(''mode'', "''map_squelch''"), (''threshold'',
-      ''0.1'')], [(''0'', ''float'', 360)], [(''0'', ''float'', 360)], "\n        mode:
-      ''map_squelch'' outputs zeros between bursts so the heatmap doesn''t track false
-      movement.\n              ''compass_hold'' persists the last burst indefinitely
-      for visual UI dials.\n        ", [''mode'', ''threshold''])'
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [2816, 900.0]
-    rotation: 0
-    state: disabled
 - name: fir_filter_xxx_0
   id: fir_filter_xxx
   parameters:
@@ -930,6 +923,7 @@ blocks:
     label7: ''
     label8: ''
     label9: ''
+    legend: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
     name: '""'
@@ -1070,9 +1064,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2312, 636.0]
+    coordinate: [2304, 632.0]
     rotation: 0
-    state: true
+    state: enabled
 
 connections:
 - [blocks_multiply_xx_0, '0', blocks_stream_to_vector_0, '0']
@@ -1086,12 +1080,13 @@ connections:
 - [blocks_stream_to_vector_0_0_0_0, '0', epy_block_0, '1']
 - [blocks_stream_to_vector_0_0_1, '0', krakensdr_doa_music_0, '3']
 - [blocks_stream_to_vector_0_0_2, '0', krakensdr_doa_music_0, '4']
+- [blocks_throttle2_0, '0', fir_filter_xxx_0, '0']
 - [blocks_vector_to_stream_0_2_0, '0', qtgui_time_sink_x_0, '0']
 - [channels_channel_model_0, '0', fir_filter_xxx_0_0, '0']
 - [channels_channel_model_0_0, '0', fir_filter_xxx_0_0_0, '0']
 - [channels_channel_model_0_0_0, '0', fir_filter_xxx_0_0_1, '0']
 - [channels_channel_model_0_0_0_0, '0', fir_filter_xxx_0_0_2, '0']
-- [channels_channel_model_0_0_0_1, '0', fir_filter_xxx_0, '0']
+- [channels_channel_model_0_0_0_1, '0', blocks_throttle2_0, '0']
 - [cospas_sarsat_doa_0, '0', channels_channel_model_0, '0']
 - [cospas_sarsat_doa_0, '1', channels_channel_model_0_0, '0']
 - [cospas_sarsat_doa_0, '2', channels_channel_model_0_0_0, '0']
@@ -1122,3 +1117,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.12.0

@@ -34,18 +34,6 @@ options:
     state: enabled
 
 blocks:
-- name: radius_wl
-  id: variable
-  parameters:
-    comment: Antenna radius in wavelengths (0.22m at 406.025 MHz)
-    value: '0.298'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [680, 12]
-    rotation: 0
-    state: enabled
 - name: beacon_bits
   id: variable
   parameters:
@@ -76,32 +64,20 @@ blocks:
 - name: carrier_freq
   id: variable
   parameters:
-    comment: Baseband carrier frequency in Hz
+    comment: ''
     value: '1000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 12]
-    rotation: 0
-    state: enabled
-- name: noise_amp
-  id: variable
-  parameters:
-    comment: Noise amplitude (0 = no noise, 0.3 = realistic)
-    value: '0.05'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [800, 12]
+    coordinate: [472, 16.0]
     rotation: 0
     state: enabled
 - name: phase0
   id: variable
   parameters:
-    comment: Channel 0 phase shift (0 degrees)
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
+    comment: ''
+    value: cmath.exp(1j * 2 * math.pi * radius_wl *math.cos(-math.radians(theta_deg)
       - 0))
   states:
     bus_sink: false
@@ -113,9 +89,9 @@ blocks:
 - name: phase1
   id: variable
   parameters:
-    comment: Channel 1 phase shift (72 degrees)
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
-      - (2*__import__('math').pi/5)*1))
+    comment: ''
+    value: cmath.exp(1j * 2 * math.pi * radius_wl * math.cos(-math.radians(theta_deg)
+      - (2*math.pi/5)*1))
   states:
     bus_sink: false
     bus_source: false
@@ -126,9 +102,9 @@ blocks:
 - name: phase2
   id: variable
   parameters:
-    comment: Channel 2 phase shift (144 degrees)
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
-      - (2*__import__('math').pi/5)*2))
+    comment: ''
+    value: cmath.exp(1j * 2 * math.pi * radius_wl * math.cos(-math.radians(theta_deg)
+      - (2*math.pi/5)*2))
   states:
     bus_sink: false
     bus_source: false
@@ -139,9 +115,9 @@ blocks:
 - name: phase3
   id: variable
   parameters:
-    comment: Channel 3 phase shift (216 degrees)
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
-      - (2*__import__('math').pi/5)*3))
+    comment: ''
+    value: cmath.exp(1j * 2 * math.pi * radius_wl * math.cos(-math.radians(theta_deg)
+      - (2*math.pi/5)*3))
   states:
     bus_sink: false
     bus_source: false
@@ -152,14 +128,26 @@ blocks:
 - name: phase4
   id: variable
   parameters:
-    comment: Channel 4 phase shift (288 degrees)
-    value: __import__('cmath').exp(1j * 2 * __import__('math').pi * radius_wl * __import__('math').cos(-__import__('math').radians(theta_deg)
-      - (2*__import__('math').pi/5)*4))
+    comment: ''
+    value: cmath.exp(1j * 2 * math.pi * radius_wl * math.cos(-math.radians(theta_deg)
+      - (2*math.pi/5)*4))
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [680, 160]
+    rotation: 0
+    state: enabled
+- name: radius_wl
+  id: variable
+  parameters:
+    comment: Antenna radius in wavelengths (0.22m at 406.025 MHz)
+    value: '0.298'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [568, 16.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -177,53 +165,13 @@ blocks:
 - name: sps
   id: variable
   parameters:
-    comment: Samples per symbol = samp_rate / bit_rate = 120
+    comment: ''
     value: int(samp_rate / bit_rate)
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 12]
-    rotation: 0
-    state: enabled
-- name: theta_deg
-  id: variable_qtgui_range
-  parameters:
-    comment: Angle of incidence in degrees (0=North, 90=East)
-    gui_hint: 0,0,1,4
-    label: Angle of Incidence (degrees)
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '-180'
-    step: '1'
-    stop: '180'
-    value: '45'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [0, 152.0]
-    rotation: 0
-    state: disabled
-- name: analog_noise_source
-  id: analog_noise_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: noise_amp
-    comment: AWGN noise
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    noise_type: analog.GR_GAUSSIAN
-    seed: '0'
-    type: complex
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [780, 500]
+    coordinate: [400, 16.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_carrier
@@ -239,6 +187,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: samp_rate
+    showports: 'False'
     type: complex
     waveform: analog.GR_COS_WAVE
   states:
@@ -248,30 +197,12 @@ blocks:
     coordinate: [440, 460]
     rotation: 0
     state: enabled
-- name: blocks_add_noise
-  id: blocks_add_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: Add AWGN noise to signal
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: '2'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [960, 400]
-    rotation: 0
-    state: enabled
 - name: blocks_float_to_complex_0
   id: blocks_float_to_complex
   parameters:
     affinity: ''
     alias: ''
-    comment: Convert BPSK float to complex
+    comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
     vlen: '1'
@@ -287,7 +218,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: 'Channel 0: phase shift based on theta_deg'
+    comment: ''
     const: phase0
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -305,7 +236,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: 'Channel 1: phase shift based on theta_deg'
+    comment: ''
     const: phase1
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -323,7 +254,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: 'Channel 2: phase shift based on theta_deg'
+    comment: ''
     const: phase2
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -341,7 +272,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: 'Channel 3: phase shift based on theta_deg'
+    comment: ''
     const: phase3
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -359,7 +290,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: 'Channel 4: phase shift based on theta_deg'
+    comment: ''
     const: phase4
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -395,7 +326,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: Stretch symbol to sps samples (120)
+    comment: ''
     interp: sps
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -434,7 +365,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: BPSK symbol mapping
+    comment: ''
     dimension: '1'
     in_type: byte
     maxoutbuf: '0'
@@ -447,6 +378,19 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [240, 340]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math,cmath
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1088, 160.0]
     rotation: 0
     state: enabled
 - name: pad_sink_0
@@ -726,14 +670,14 @@ blocks:
     label: samp_rate
     short_id: ''
     type: ''
-    value: '2400000'
+    value: '1000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1112, 12.0]
+    coordinate: [1024, 8.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: theta_deg
   id: parameter
   parameters:
@@ -748,15 +692,15 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [920, 12.0]
+    coordinate: [928, 8.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: vector_source_0
   id: blocks_vector_source_x
   parameters:
     affinity: ''
     alias: ''
-    comment: Cospas-Sarsat 144-bit frame, repeated
+    comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
     repeat: 'True'
@@ -777,7 +721,9 @@ blocks:
     address: tcp://127.0.0.1:5555
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ZMQ output channel 0 for DoA processor
+    drop_on_hwm: 'True'
     hwm: '-1'
     key: ''
     pass_tags: 'False'
@@ -797,7 +743,9 @@ blocks:
     address: tcp://127.0.0.1:5556
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ZMQ output channel 1
+    drop_on_hwm: 'True'
     hwm: '-1'
     key: ''
     pass_tags: 'False'
@@ -817,7 +765,9 @@ blocks:
     address: tcp://127.0.0.1:5557
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ZMQ output channel 2
+    drop_on_hwm: 'True'
     hwm: '-1'
     key: ''
     pass_tags: 'False'
@@ -837,7 +787,9 @@ blocks:
     address: tcp://127.0.0.1:5558
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ZMQ output channel 3
+    drop_on_hwm: 'True'
     hwm: '-1'
     key: ''
     pass_tags: 'False'
@@ -857,7 +809,9 @@ blocks:
     address: tcp://127.0.0.1:5559
     affinity: ''
     alias: ''
+    bind: 'True'
     comment: ZMQ output channel 4
+    drop_on_hwm: 'True'
     hwm: '-1'
     key: ''
     pass_tags: 'False'
@@ -873,13 +827,7 @@ blocks:
     state: disabled
 
 connections:
-- [analog_noise_source, '0', blocks_add_noise, '1']
 - [analog_sig_source_carrier, '0', blocks_multiply_xx_0, '1']
-- [blocks_add_noise, '0', blocks_multiply_ch0, '0']
-- [blocks_add_noise, '0', blocks_multiply_ch1, '0']
-- [blocks_add_noise, '0', blocks_multiply_ch2, '0']
-- [blocks_add_noise, '0', blocks_multiply_ch3, '0']
-- [blocks_add_noise, '0', blocks_multiply_ch4, '0']
 - [blocks_float_to_complex_0, '0', blocks_multiply_xx_0, '0']
 - [blocks_multiply_ch0, '0', pad_sink_0_2, '0']
 - [blocks_multiply_ch0, '0', qtgui_freq_sink_0, '0']
@@ -898,7 +846,11 @@ connections:
 - [blocks_multiply_ch4, '0', pad_sink_0_3, '0']
 - [blocks_multiply_ch4, '0', qtgui_freq_sink_0, '4']
 - [blocks_multiply_ch4, '0', zeromq_pub_sink_ch4, '0']
-- [blocks_multiply_xx_0, '0', blocks_add_noise, '0']
+- [blocks_multiply_xx_0, '0', blocks_multiply_ch0, '0']
+- [blocks_multiply_xx_0, '0', blocks_multiply_ch1, '0']
+- [blocks_multiply_xx_0, '0', blocks_multiply_ch2, '0']
+- [blocks_multiply_xx_0, '0', blocks_multiply_ch3, '0']
+- [blocks_multiply_xx_0, '0', blocks_multiply_ch4, '0']
 - [blocks_repeat_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_multiply_xx_0, '2']
 - [digital_chunks_to_symbols_0, '0', blocks_repeat_0, '0']
@@ -906,3 +858,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.12.0
