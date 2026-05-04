@@ -51,7 +51,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1056, 108.0]
+    coordinate: [2040, 236.0]
     rotation: 0
     state: true
 - name: cpi_size
@@ -96,7 +96,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 108.0]
+    coordinate: [1912, 236.0]
     rotation: 0
     state: true
 - name: freq
@@ -141,9 +141,99 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 580.0]
+    coordinate: [72, 908.0]
     rotation: 0
     state: enabled
+- name: blocks_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1808, 352.0]
+    rotation: 0
+    state: true
+- name: blocks_multiply_xx_0_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1808, 424.0]
+    rotation: 0
+    state: true
+- name: blocks_multiply_xx_0_1
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1808, 496.0]
+    rotation: 0
+    state: true
+- name: blocks_multiply_xx_0_2
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1808, 568.0]
+    rotation: 0
+    state: true
+- name: blocks_multiply_xx_0_3
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1808, 640.0]
+    rotation: 0
+    state: true
 - name: blocks_stream_to_vector_0
   id: blocks_stream_to_vector
   parameters:
@@ -159,7 +249,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 296.0]
+    coordinate: [1992, 424.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0_0
@@ -177,7 +267,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 328.0]
+    coordinate: [1992, 456.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0_0_0
@@ -195,7 +285,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 360.0]
+    coordinate: [1992, 488.0]
+    rotation: 0
+    state: enabled
+- name: blocks_stream_to_vector_0_0_0_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: cpi_size//decimation
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2512, 640.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0_0_1
@@ -213,7 +321,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 392.0]
+    coordinate: [1992, 520.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0_0_2
@@ -231,7 +339,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 424.0]
+    coordinate: [1992, 552.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_to_stream_0_2_0
@@ -249,7 +357,112 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1960, 360.0]
+    coordinate: [3072, 488.0]
+    rotation: 0
+    state: enabled
+- name: channels_channel_model_0
+  id: channels_channel_model
+  parameters:
+    affinity: ''
+    alias: ''
+    block_tags: 'False'
+    comment: ''
+    epsilon: '1.0'
+    freq_offset: '0.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_voltage: '0.2'
+    seed: '0'
+    taps: 1.0 + 1.0j
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 924.0]
+    rotation: 0
+    state: enabled
+- name: channels_channel_model_0_0
+  id: channels_channel_model
+  parameters:
+    affinity: ''
+    alias: ''
+    block_tags: 'False'
+    comment: ''
+    epsilon: '1.0'
+    freq_offset: '0.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_voltage: '0.2'
+    seed: '0'
+    taps: 1.0 + 1.0j
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 1052.0]
+    rotation: 0
+    state: enabled
+- name: channels_channel_model_0_0_0
+  id: channels_channel_model
+  parameters:
+    affinity: ''
+    alias: ''
+    block_tags: 'False'
+    comment: ''
+    epsilon: '1.0'
+    freq_offset: '0.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_voltage: '0.2'
+    seed: '0'
+    taps: 1.0 + 1.0j
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 1180.0]
+    rotation: 0
+    state: enabled
+- name: channels_channel_model_0_0_0_0
+  id: channels_channel_model
+  parameters:
+    affinity: ''
+    alias: ''
+    block_tags: 'False'
+    comment: ''
+    epsilon: '1.0'
+    freq_offset: '0.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_voltage: '0.2'
+    seed: '0'
+    taps: 1.0 + 1.0j
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 1436.0]
+    rotation: 0
+    state: enabled
+- name: channels_channel_model_0_0_0_1
+  id: channels_channel_model
+  parameters:
+    affinity: ''
+    alias: ''
+    block_tags: 'False'
+    comment: ''
+    epsilon: '1.0'
+    freq_offset: '0.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_voltage: '0.2'
+    seed: '0'
+    taps: 1.0 + 1.0j
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 1308.0]
     rotation: 0
     state: enabled
 - name: cospas_sarsat_doa_0
@@ -266,10 +479,54 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 728.0]
+    coordinate: [48, 1072.0]
     rotation: 0
     state: true
 - name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\nclass blk(gr.sync_block):\n\
+      \    def __init__(self, cpi_size=8192):\n        \"\"\"\n        Custom Smart\
+      \ Gate: Holds the previous MUSIC spectrum when squelch is closed.\n        \"\
+      \"\"\n        gr.sync_block.__init__(\n            self,\n            name='Squelch-Triggered\
+      \ Vector Gate',\n            # Hardcoded 8192 to prevent the GRC AST parser\
+      \ from crashing\n            in_sig=[(np.float32, 360), (np.complex64, 8192)],\n\
+      \            out_sig=[(np.float32, 360)]\n        )\n        # Initialize the\
+      \ baseline floor at -140 dB\n        self.held_vector = np.full(360, -140.0,\
+      \ dtype=np.float32)\n\n    def work(self, input_items, output_items):\n    \
+      \    doa_input = input_items[0]\n        squelch_input = input_items[1]\n\n\
+      \        for i in range(len(doa_input)):\n            current_doa = doa_input[i]\n\
+      \            current_squelch_frame = squelch_input[i]\n\n            # 1. Did\
+      \ the squelch gate open at ALL during this 437ms frame?\n            gate_open\
+      \ = np.max(np.abs(current_squelch_frame)) > 0.5\n\n            # 2. Safety Check\
+      \ 1: Ignore frames where MUSIC exploded into NaNs\n            if np.isnan(current_doa).any():\n\
+      \                gate_open = False\n\n            # 3. Safety Check 2: The Flatline\
+      \ Trap\n            # If the signal is squelched, the 1e-6 DC offset creates\
+      \ a perfectly flat 0.0dB spectrum.\n            # A valid peak will have a noise\
+      \ floor below -3.0 dB.\n            if np.min(current_doa) > -3.0:\n       \
+      \         gate_open = False\n\n            # Output Logic\n            if gate_open:\n\
+      \                # Burst detected AND valid peak! Save it to memory.\n     \
+      \           self.held_vector = np.copy(current_doa)\n            \n        \
+      \    # Safely write the held vector into the output buffer\n            output_items[0][i][:]\
+      \ = self.held_vector\n\n        return len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    cpi_size: cpi_size//decimation
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: '(''Squelch-Triggered Vector Gate'', ''blk'', [(''cpi_size'', ''8192'')],
+      [(''0'', ''float'', 360), (''1'', ''complex'', 8192)], [(''0'', ''float'', 360)],
+      ''\n        Custom Smart Gate: Holds the previous MUSIC spectrum when squelch
+      is closed.\n        '', [])'
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2744, 488.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0_0
   id: epy_block
   parameters:
     _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
@@ -305,7 +562,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     mode: '''map_squelch'''
-    threshold: '0.1'
+    threshold: '-0.2'
   states:
     _io_cache: '(''Smart Vector Gate'', ''blk'', [(''mode'', "''map_squelch''"), (''threshold'',
       ''0.1'')], [(''0'', ''float'', 360)], [(''0'', ''float'', 360)], "\n        mode:
@@ -315,9 +572,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1736, 348.0]
+    coordinate: [2816, 900.0]
     rotation: 0
-    state: bypassed
+    state: disabled
 - name: fir_filter_xxx_0
   id: fir_filter_xxx
   parameters:
@@ -334,7 +591,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 196.0]
+    coordinate: [1328, 324.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_0_0
@@ -353,7 +610,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 260.0]
+    coordinate: [1328, 388.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_0_0_0
@@ -372,7 +629,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 324.0]
+    coordinate: [1328, 452.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_0_0_1
@@ -391,7 +648,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 388.0]
+    coordinate: [1328, 516.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_0_0_2
@@ -410,7 +667,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 452.0]
+    coordinate: [1328, 580.0]
     rotation: 0
     state: enabled
 - name: krakensdr_doa_music_0
@@ -430,7 +687,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1232, 296.0]
+    coordinate: [2216, 424.0]
     rotation: 0
     state: enabled
 - name: krakensdr_krakensdr_source_0
@@ -452,7 +709,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 272.0]
+    coordinate: [240, 360.0]
     rotation: 0
     state: disabled
 - name: qtgui_freq_sink_x_0
@@ -533,7 +790,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [584, 124.0]
+    coordinate: [1600, 20.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
@@ -551,7 +808,7 @@ blocks:
     alpha7: '1.0'
     alpha8: '1.0'
     alpha9: '1.0'
-    autoscale: 'True'
+    autoscale: 'False'
     axislabels: 'True'
     color1: blue
     color10: dark blue
@@ -630,9 +887,82 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2168, 332.0]
+    coordinate: [3264, 460.0]
     rotation: 0
     state: true
+- name: qtgui_vector_sink_f_0
+  id: qtgui_vector_sink_f
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    ref_level: '0'
+    showports: 'False'
+    update_time: '0.10'
+    vlen: '360'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    x_axis_label: '"x-Axis"'
+    x_start: '0'
+    x_step: '1.0'
+    x_units: '""'
+    y_axis_label: '"y-Axis"'
+    y_units: '""'
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2696, 308.0]
+    rotation: 0
+    state: disabled
 - name: squelcher_0
   id: squelcher
   parameters:
@@ -649,116 +979,146 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 236.0]
+    coordinate: [1592, 220.0]
     rotation: 0
-    state: true
-- name: squelcher_0_0
-  id: squelcher
+    state: enabled
+- name: virtual_sink_0
+  id: virtual_sink
   parameters:
-    affinity: ''
     alias: ''
-    alpha_iir: '0.01'
     comment: ''
-    decimation: decimation
-    delay_time_s: '2'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
+    stream_id: Noise_gate
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 500.0]
+    coordinate: [1768, 244.0]
     rotation: 0
     state: true
-- name: squelcher_0_1
-  id: squelcher
+- name: virtual_source_0
+  id: virtual_source
   parameters:
-    affinity: ''
     alias: ''
-    alpha_iir: '0.01'
     comment: ''
-    decimation: decimation
-    delay_time_s: '2'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
+    stream_id: Noise_gate
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 308.0]
+    coordinate: [1592, 348.0]
     rotation: 0
     state: true
-- name: squelcher_0_2
-  id: squelcher
+- name: virtual_source_0_0
+  id: virtual_source
   parameters:
-    affinity: ''
     alias: ''
-    alpha_iir: '0.01'
     comment: ''
-    decimation: decimation
-    delay_time_s: '2'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
+    stream_id: Noise_gate
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 436.0]
+    coordinate: [1592, 420.0]
     rotation: 0
     state: true
-- name: squelcher_0_2_0
-  id: squelcher
+- name: virtual_source_0_0_0
+  id: virtual_source
   parameters:
-    affinity: ''
     alias: ''
-    alpha_iir: '0.01'
     comment: ''
-    decimation: decimation
-    delay_time_s: '2'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
+    stream_id: Noise_gate
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 372.0]
+    coordinate: [1592, 492.0]
+    rotation: 0
+    state: true
+- name: virtual_source_0_0_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Noise_gate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1600, 564.0]
+    rotation: 0
+    state: true
+- name: virtual_source_0_0_2
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Noise_gate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1600, 636.0]
+    rotation: 0
+    state: true
+- name: virtual_source_0_1
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Noise_gate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2312, 636.0]
     rotation: 0
     state: true
 
 connections:
+- [blocks_multiply_xx_0, '0', blocks_stream_to_vector_0, '0']
+- [blocks_multiply_xx_0_0, '0', blocks_stream_to_vector_0_0, '0']
+- [blocks_multiply_xx_0_1, '0', blocks_stream_to_vector_0_0_0, '0']
+- [blocks_multiply_xx_0_2, '0', blocks_stream_to_vector_0_0_1, '0']
+- [blocks_multiply_xx_0_3, '0', blocks_stream_to_vector_0_0_2, '0']
 - [blocks_stream_to_vector_0, '0', krakensdr_doa_music_0, '0']
 - [blocks_stream_to_vector_0_0, '0', krakensdr_doa_music_0, '1']
 - [blocks_stream_to_vector_0_0_0, '0', krakensdr_doa_music_0, '2']
+- [blocks_stream_to_vector_0_0_0_0, '0', epy_block_0, '1']
 - [blocks_stream_to_vector_0_0_1, '0', krakensdr_doa_music_0, '3']
 - [blocks_stream_to_vector_0_0_2, '0', krakensdr_doa_music_0, '4']
 - [blocks_vector_to_stream_0_2_0, '0', qtgui_time_sink_x_0, '0']
-- [cospas_sarsat_doa_0, '0', fir_filter_xxx_0_0, '0']
-- [cospas_sarsat_doa_0, '1', fir_filter_xxx_0_0_0, '0']
-- [cospas_sarsat_doa_0, '2', fir_filter_xxx_0_0_1, '0']
-- [cospas_sarsat_doa_0, '3', fir_filter_xxx_0, '0']
-- [cospas_sarsat_doa_0, '4', fir_filter_xxx_0_0_2, '0']
+- [channels_channel_model_0, '0', fir_filter_xxx_0_0, '0']
+- [channels_channel_model_0_0, '0', fir_filter_xxx_0_0_0, '0']
+- [channels_channel_model_0_0_0, '0', fir_filter_xxx_0_0_1, '0']
+- [channels_channel_model_0_0_0_0, '0', fir_filter_xxx_0_0_2, '0']
+- [channels_channel_model_0_0_0_1, '0', fir_filter_xxx_0, '0']
+- [cospas_sarsat_doa_0, '0', channels_channel_model_0, '0']
+- [cospas_sarsat_doa_0, '1', channels_channel_model_0_0, '0']
+- [cospas_sarsat_doa_0, '2', channels_channel_model_0_0_0, '0']
+- [cospas_sarsat_doa_0, '3', channels_channel_model_0_0_0_1, '0']
+- [cospas_sarsat_doa_0, '4', channels_channel_model_0_0_0_0, '0']
 - [epy_block_0, '0', blocks_vector_to_stream_0_2_0, '0']
+- [fir_filter_xxx_0, '0', blocks_multiply_xx_0, '1']
 - [fir_filter_xxx_0, '0', qtgui_freq_sink_x_0, '0']
 - [fir_filter_xxx_0, '0', squelcher_0, '0']
-- [fir_filter_xxx_0_0, '0', squelcher_0_1, '0']
-- [fir_filter_xxx_0_0_0, '0', squelcher_0_2_0, '0']
-- [fir_filter_xxx_0_0_1, '0', squelcher_0_2, '0']
-- [fir_filter_xxx_0_0_2, '0', squelcher_0_0, '0']
+- [fir_filter_xxx_0_0, '0', blocks_multiply_xx_0_0, '1']
+- [fir_filter_xxx_0_0_0, '0', blocks_multiply_xx_0_1, '1']
+- [fir_filter_xxx_0_0_1, '0', blocks_multiply_xx_0_2, '1']
+- [fir_filter_xxx_0_0_2, '0', blocks_multiply_xx_0_3, '1']
 - [krakensdr_doa_music_0, '0', epy_block_0, '0']
+- [krakensdr_doa_music_0, '0', qtgui_vector_sink_f_0, '0']
 - [krakensdr_krakensdr_source_0, '0', fir_filter_xxx_0, '0']
 - [krakensdr_krakensdr_source_0, '1', fir_filter_xxx_0_0, '0']
 - [krakensdr_krakensdr_source_0, '2', fir_filter_xxx_0_0_0, '0']
 - [krakensdr_krakensdr_source_0, '3', fir_filter_xxx_0_0_1, '0']
 - [krakensdr_krakensdr_source_0, '4', fir_filter_xxx_0_0_2, '0']
-- [squelcher_0, '0', blocks_stream_to_vector_0, '0']
-- [squelcher_0_0, '0', blocks_stream_to_vector_0_0_2, '0']
-- [squelcher_0_1, '0', blocks_stream_to_vector_0_0, '0']
-- [squelcher_0_2, '0', blocks_stream_to_vector_0_0_1, '0']
-- [squelcher_0_2_0, '0', blocks_stream_to_vector_0_0_0, '0']
+- [squelcher_0, '0', virtual_sink_0, '0']
+- [virtual_source_0, '0', blocks_multiply_xx_0, '0']
+- [virtual_source_0_0, '0', blocks_multiply_xx_0_0, '0']
+- [virtual_source_0_0_0, '0', blocks_multiply_xx_0_1, '0']
+- [virtual_source_0_0_1, '0', blocks_multiply_xx_0_2, '0']
+- [virtual_source_0_0_2, '0', blocks_multiply_xx_0_3, '0']
+- [virtual_source_0_1, '0', blocks_stream_to_vector_0_0_0_0, '0']
 
 metadata:
   file_format: 1

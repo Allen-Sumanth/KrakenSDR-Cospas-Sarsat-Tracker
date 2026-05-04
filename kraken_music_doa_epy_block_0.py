@@ -1,53 +1,48 @@
-"""
-Embedded Python Blocks:
-
-Each time this file is saved, GRC will instantiate the first class it finds
-to get ports and parameters of your block. The arguments to __init__  will
-be the parameters. All of them are required to have default values!
-"""
-
 import numpy as np
 from gnuradio import gr
 
 class blk(gr.sync_block):
-    def __init__(self, mode='map_squelch', threshold=0.1):
+    def __init__(self, cpi_size=8192):
         """
-        mode: 'map_squelch' outputs zeros between bursts so the heatmap doesn't track false movement.
-              'compass_hold' persists the last burst indefinitely for visual UI dials.
+        Custom Smart Gate: Holds the previous MUSIC spectrum when squelch is closed.
         """
         gr.sync_block.__init__(
             self,
-            name='Smart Vector Gate',
-            in_sig=[(np.float32, 360)],
+            name='Squelch-Triggered Vector Gate',
+            # Hardcoded 8192 to prevent the GRC AST parser from crashing
+            in_sig=[(np.float32, 360), (np.complex64, 8192)],
             out_sig=[(np.float32, 360)]
         )
-        self.mode = mode 
-        self.threshold = threshold
-        self.held_vector = np.zeros(360, dtype=np.float32)
+        # Initialize the baseline floor at -140 dB
+        self.held_vector = np.full(360, -140.0, dtype=np.float32)
 
     def work(self, input_items, output_items):
-        for i in range(len(input_items[0])):
-            current_vector = input_items[0][i]
+        doa_input = input_items[0]
+        squelch_input = input_items[1]
 
-            # 1. Catch the MUSIC algorithm Divide-by-Zero (NaN) explosion
-            if np.isnan(current_vector).any():
-                is_valid = False
-            # 2. Check if the vector contains a strong, valid MUSIC peak
-            elif np.max(current_vector) > self.threshold:
-                is_valid = True
-                self.held_vector = np.copy(current_vector) # Save it to memory
-            else:
-                is_valid = False
+        for i in range(len(doa_input)):
+            current_doa = doa_input[i]
+            current_squelch_frame = squelch_input[i]
+
+            # 1. Did the squelch gate open at ALL during this 437ms frame?
+            gate_open = np.max(np.abs(current_squelch_frame)) > 0.5
+
+            # 2. Safety Check 1: Ignore frames where MUSIC exploded into NaNs
+            if np.isnan(current_doa).any():
+                gate_open = False
+
+            # 3. Safety Check 2: The Flatline Trap
+            # If the signal is squelched, the 1e-6 DC offset creates a perfectly flat 0.0dB spectrum.
+            # A valid peak will have a noise floor below -3.0 dB.
+            if np.min(current_doa) > -3.0:
+                gate_open = False
 
             # Output Logic
-            if self.mode == 'compass_hold':
-                # Continously push the last known heading (Dangerous if driving!)
-                output_items[0][i] = self.held_vector
-            else:
-                # 'map_squelch' - Push valid burst, otherwise output strict zeros
-                if is_valid:
-                    output_items[0][i] = current_vector
-                else:
-                    output_items[0][i] = np.zeros(360, dtype=np.float32)
+            if gate_open:
+                # Burst detected AND valid peak! Save it to memory.
+                self.held_vector = np.copy(current_doa)
+            
+            # Safely write the held vector into the output buffer
+            output_items[0][i][:] = self.held_vector
 
         return len(output_items[0])

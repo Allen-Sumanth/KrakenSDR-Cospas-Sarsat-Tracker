@@ -30,6 +30,7 @@ from gnuradio.filter import firdes
 import sip
 from cospas_sarsat_doa import cospas_sarsat_doa  # grc-generated hier_block
 from gnuradio import blocks
+from gnuradio import channels
 from gnuradio import filter
 from gnuradio import gr
 from gnuradio.fft import window
@@ -101,30 +102,6 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 4):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.squelcher_0_2_0 = squelcher(
-            alpha_iir=0.01,
-            decimation=decimation,
-            delay_time_s=2,
-            samp_rate=samp_rate,
-        )
-        self.squelcher_0_2 = squelcher(
-            alpha_iir=0.01,
-            decimation=decimation,
-            delay_time_s=2,
-            samp_rate=samp_rate,
-        )
-        self.squelcher_0_1 = squelcher(
-            alpha_iir=0.01,
-            decimation=decimation,
-            delay_time_s=2,
-            samp_rate=samp_rate,
-        )
-        self.squelcher_0_0 = squelcher(
-            alpha_iir=0.01,
-            decimation=decimation,
-            delay_time_s=2,
-            samp_rate=samp_rate,
-        )
         self.squelcher_0 = squelcher(
             alpha_iir=0.01,
             decimation=decimation,
@@ -145,7 +122,7 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
 
         self.qtgui_time_sink_x_0.enable_tags(True)
         self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(True)
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
         self.qtgui_time_sink_x_0.enable_grid(False)
         self.qtgui_time_sink_x_0.enable_axis_labels(True)
         self.qtgui_time_sink_x_0.enable_control_panel(False)
@@ -232,6 +209,7 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         self.fir_filter_xxx_0_0.declare_sample_delay(0)
         self.fir_filter_xxx_0 = filter.fir_filter_ccc(decimation, firdes.low_pass(1.0, samp_rate, (samp_rate/decimation)/2, 1000))
         self.fir_filter_xxx_0.declare_sample_delay(0)
+        self.epy_block_0 = epy_block_0.blk(cpi_size=cpi_size//decimation)
         self._delay_time_s_0_range = Range(0, 5, 0.5, 2, 200)
         self._delay_time_s_0_win = RangeWidget(self._delay_time_s_0_range, self.set_delay_time_s_0, "'delay_time_s_0'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._delay_time_s_0_win)
@@ -239,12 +217,53 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
             samp_rate=samp_rate,
             theta_deg=theta_deg,
         )
+        self.channels_channel_model_0_0_0_1 = channels.channel_model(
+            noise_voltage=0.2,
+            frequency_offset=0.0,
+            epsilon=1.0,
+            taps=[1.0 + 1.0j],
+            noise_seed=0,
+            block_tags=False)
+        self.channels_channel_model_0_0_0_0 = channels.channel_model(
+            noise_voltage=0.2,
+            frequency_offset=0.0,
+            epsilon=1.0,
+            taps=[1.0 + 1.0j],
+            noise_seed=0,
+            block_tags=False)
+        self.channels_channel_model_0_0_0 = channels.channel_model(
+            noise_voltage=0.2,
+            frequency_offset=0.0,
+            epsilon=1.0,
+            taps=[1.0 + 1.0j],
+            noise_seed=0,
+            block_tags=False)
+        self.channels_channel_model_0_0 = channels.channel_model(
+            noise_voltage=0.2,
+            frequency_offset=0.0,
+            epsilon=1.0,
+            taps=[1.0 + 1.0j],
+            noise_seed=0,
+            block_tags=False)
+        self.channels_channel_model_0 = channels.channel_model(
+            noise_voltage=0.2,
+            frequency_offset=0.0,
+            epsilon=1.0,
+            taps=[1.0 + 1.0j],
+            noise_seed=0,
+            block_tags=False)
         self.blocks_vector_to_stream_0_2_0 = blocks.vector_to_stream(gr.sizeof_float*1, 360)
         self.blocks_stream_to_vector_0_0_2 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0_0_1 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
+        self.blocks_stream_to_vector_0_0_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, cpi_size//decimation)
+        self.blocks_multiply_xx_0_3 = blocks.multiply_vcc(1)
+        self.blocks_multiply_xx_0_2 = blocks.multiply_vcc(1)
+        self.blocks_multiply_xx_0_1 = blocks.multiply_vcc(1)
+        self.blocks_multiply_xx_0_0 = blocks.multiply_vcc(1)
+        self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self._alpha_iir_0_range = Range(0, 1, 0.01, 0.01, 200)
         self._alpha_iir_0_win = RangeWidget(self._alpha_iir_0_range, self.set_alpha_iir_0, "'alpha_iir_0'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._alpha_iir_0_win)
@@ -253,29 +272,43 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
+        self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_stream_to_vector_0, 0))
+        self.connect((self.blocks_multiply_xx_0_0, 0), (self.blocks_stream_to_vector_0_0, 0))
+        self.connect((self.blocks_multiply_xx_0_1, 0), (self.blocks_stream_to_vector_0_0_0, 0))
+        self.connect((self.blocks_multiply_xx_0_2, 0), (self.blocks_stream_to_vector_0_0_1, 0))
+        self.connect((self.blocks_multiply_xx_0_3, 0), (self.blocks_stream_to_vector_0_0_2, 0))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.krakensdr_doa_music_0, 0))
         self.connect((self.blocks_stream_to_vector_0_0, 0), (self.krakensdr_doa_music_0, 1))
         self.connect((self.blocks_stream_to_vector_0_0_0, 0), (self.krakensdr_doa_music_0, 2))
+        self.connect((self.blocks_stream_to_vector_0_0_0_0, 0), (self.epy_block_0, 1))
         self.connect((self.blocks_stream_to_vector_0_0_1, 0), (self.krakensdr_doa_music_0, 3))
         self.connect((self.blocks_stream_to_vector_0_0_2, 0), (self.krakensdr_doa_music_0, 4))
         self.connect((self.blocks_vector_to_stream_0_2_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.cospas_sarsat_doa_0, 3), (self.fir_filter_xxx_0, 0))
-        self.connect((self.cospas_sarsat_doa_0, 0), (self.fir_filter_xxx_0_0, 0))
-        self.connect((self.cospas_sarsat_doa_0, 1), (self.fir_filter_xxx_0_0_0, 0))
-        self.connect((self.cospas_sarsat_doa_0, 2), (self.fir_filter_xxx_0_0_1, 0))
-        self.connect((self.cospas_sarsat_doa_0, 4), (self.fir_filter_xxx_0_0_2, 0))
+        self.connect((self.channels_channel_model_0, 0), (self.fir_filter_xxx_0_0, 0))
+        self.connect((self.channels_channel_model_0_0, 0), (self.fir_filter_xxx_0_0_0, 0))
+        self.connect((self.channels_channel_model_0_0_0, 0), (self.fir_filter_xxx_0_0_1, 0))
+        self.connect((self.channels_channel_model_0_0_0_0, 0), (self.fir_filter_xxx_0_0_2, 0))
+        self.connect((self.channels_channel_model_0_0_0_1, 0), (self.fir_filter_xxx_0, 0))
+        self.connect((self.cospas_sarsat_doa_0, 0), (self.channels_channel_model_0, 0))
+        self.connect((self.cospas_sarsat_doa_0, 1), (self.channels_channel_model_0_0, 0))
+        self.connect((self.cospas_sarsat_doa_0, 2), (self.channels_channel_model_0_0_0, 0))
+        self.connect((self.cospas_sarsat_doa_0, 4), (self.channels_channel_model_0_0_0_0, 0))
+        self.connect((self.cospas_sarsat_doa_0, 3), (self.channels_channel_model_0_0_0_1, 0))
+        self.connect((self.epy_block_0, 0), (self.blocks_vector_to_stream_0_2_0, 0))
+        self.connect((self.fir_filter_xxx_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.squelcher_0, 0))
-        self.connect((self.fir_filter_xxx_0_0, 0), (self.squelcher_0_1, 0))
-        self.connect((self.fir_filter_xxx_0_0_0, 0), (self.squelcher_0_2_0, 0))
-        self.connect((self.fir_filter_xxx_0_0_1, 0), (self.squelcher_0_2, 0))
-        self.connect((self.fir_filter_xxx_0_0_2, 0), (self.squelcher_0_0, 0))
-        self.connect((self.krakensdr_doa_music_0, 0), (self.blocks_vector_to_stream_0_2_0, 0))
-        self.connect((self.squelcher_0, 0), (self.blocks_stream_to_vector_0, 0))
-        self.connect((self.squelcher_0_0, 0), (self.blocks_stream_to_vector_0_0_2, 0))
-        self.connect((self.squelcher_0_1, 0), (self.blocks_stream_to_vector_0_0, 0))
-        self.connect((self.squelcher_0_2, 0), (self.blocks_stream_to_vector_0_0_1, 0))
-        self.connect((self.squelcher_0_2_0, 0), (self.blocks_stream_to_vector_0_0_0, 0))
+        self.connect((self.fir_filter_xxx_0_0, 0), (self.blocks_multiply_xx_0_0, 1))
+        self.connect((self.fir_filter_xxx_0_0_0, 0), (self.blocks_multiply_xx_0_1, 1))
+        self.connect((self.fir_filter_xxx_0_0_1, 0), (self.blocks_multiply_xx_0_2, 1))
+        self.connect((self.fir_filter_xxx_0_0_2, 0), (self.blocks_multiply_xx_0_3, 1))
+        self.connect((self.krakensdr_doa_music_0, 0), (self.epy_block_0, 0))
+        self.connect((self.squelcher_0, 0), (self.blocks_multiply_xx_0, 0))
+        self.connect((self.squelcher_0, 0), (self.blocks_multiply_xx_0_0, 0))
+        self.connect((self.squelcher_0, 0), (self.blocks_multiply_xx_0_1, 0))
+        self.connect((self.squelcher_0, 0), (self.blocks_multiply_xx_0_2, 0))
+        self.connect((self.squelcher_0, 0), (self.blocks_multiply_xx_0_3, 0))
+        self.connect((self.squelcher_0, 0), (self.blocks_stream_to_vector_0_0_0_0, 0))
 
 
     def closeEvent(self, event):
@@ -306,10 +339,6 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         self.fir_filter_xxx_0_0_2.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate//self.decimation)
         self.squelcher_0.set_samp_rate(self.samp_rate)
-        self.squelcher_0_0.set_samp_rate(self.samp_rate)
-        self.squelcher_0_1.set_samp_rate(self.samp_rate)
-        self.squelcher_0_2.set_samp_rate(self.samp_rate)
-        self.squelcher_0_2_0.set_samp_rate(self.samp_rate)
 
     def get_freq(self):
         return self.freq
@@ -335,10 +364,6 @@ class kraken_music_doa(gr.top_block, Qt.QWidget):
         self.fir_filter_xxx_0_0_2.set_taps(firdes.low_pass(1.0, self.samp_rate, (self.samp_rate/self.decimation)/2, 1000))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate//self.decimation)
         self.squelcher_0.set_decimation(self.decimation)
-        self.squelcher_0_0.set_decimation(self.decimation)
-        self.squelcher_0_1.set_decimation(self.decimation)
-        self.squelcher_0_2.set_decimation(self.decimation)
-        self.squelcher_0_2_0.set_decimation(self.decimation)
 
     def get_cpi_size(self):
         return self.cpi_size
